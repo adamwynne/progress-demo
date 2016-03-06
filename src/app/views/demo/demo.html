@@ -1,0 +1,35 @@
+<div class="demo"
+     layout="column"
+     layout-padding>
+
+    <div class="md-title">
+        Success
+    </div>
+
+    <div class="md-whiteframe-1dp"
+         layout="row"
+         layout-align="center center"
+         layout-wrap>
+
+        <md-button class="md-raised md-primary"
+                   ng-click="vm.demoSpinner('spinner-button')">
+            <i class="fa fa-plus"
+               inv-progress="spinner-button"
+               progress-hide>
+            </i>
+            <md-progress-circular md-mode="indeterminate"
+                                  inv-progress="spinner-button"
+                                  progress-show
+                                  md-diameter="16">
+            </md-progress-circular>
+            Spinner
+        </md-button>
+        <md-button class="md-raised"
+                   ng-click="vm.demoAddClass('add-class')"
+                   inv-progress="add-class"
+                   progress-add-classes="md-primary">
+            <i class="fa fa-plus"></i>
+            Add class
+        </md-button>
+    </div>
+</div>
