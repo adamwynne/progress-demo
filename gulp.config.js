@@ -1,5 +1,5 @@
 module.exports = function() {
-    var client = './src/client/';
+    var client = './src/';
     var server = './dev/server/';
     var clientApp = client + 'app/';
     var report = './report/';
