@@ -5,19 +5,26 @@
         .module('app.demo')
         .controller('DemoController', DemoController);
 
-    DemoController.$inject = ['$q', 'progressService', '$timeout', 'mockDataService', 'logger'];
+    DemoController.$inject = ['$q', 'Restangular', 'progressService', '$timeout', 'mockDataService', 'logger'];
 
     /* @ngInject */
 
-    function DemoController($q, progressService, $timeout, mockDataService, logger) {
+    function DemoController($q, Restangular, progressService, $timeout, mockDataService, logger) {
         var vm = this;
+
+        Restangular.setBaseUrl("http://data.companieshouse.gov.uk");
 
         vm.demoSpinner = function(progressId) {
             shortTimeout(progressId);
         };
 
         vm.demoAddClass = function(progressId) {
-            shortTimeout(progressId);
+            Restangular.all("doc").one("company", "02050399.json")
+                .withHttpConfig({progressId: progressId})
+                .get()
+                .then(function(result) {
+                    vm.companiesHouse = Restangular.stripRestangular(result);
+                });
         };
 
         function shortTimeout(progressId) {

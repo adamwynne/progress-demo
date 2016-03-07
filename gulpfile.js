@@ -6,6 +6,7 @@ var glob = require('glob');
 var gulp = require('gulp');
 var path = require('path');
 var _ = require('lodash');
+var debug = require('gulp-debug');
 var $ = require('gulp-load-plugins')({lazy: true});
 
 var colors = $.util.colors;

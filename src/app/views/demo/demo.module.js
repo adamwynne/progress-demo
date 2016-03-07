@@ -4,6 +4,7 @@
     angular.module('app.demo', [
         'app.core',
         'app.widgets',
-        'investec.utils'
+        'investec.utils',
+        'restangular'
       ]);
 })();
