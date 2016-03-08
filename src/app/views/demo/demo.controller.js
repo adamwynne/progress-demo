@@ -27,6 +27,15 @@
                 });
         };
 
+        vm.demoErrorClass = function(progressId) {
+            Restangular.all("doc").one("wrong_endpoint", "02050399.json")
+                .withHttpConfig({progressId: progressId})
+                .get()
+                .then(function(result) {
+                    vm.companiesHouse = Restangular.stripRestangular(result);
+                });
+        };
+
         function shortTimeout(progressId) {
             progressService.start(progressId);
             $timeout(function() {

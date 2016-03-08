@@ -18,6 +18,7 @@
             getStartFn: getStartFn,
             start: start,
             stop: stop,
+            error: error,
             registerId: registerId,
             registerIds: registerIds,
             unregisterId: unregisterId,
@@ -42,6 +43,12 @@
             };
         }
 
+        function getErrorFn(progressId) {
+            return function () {
+                error(progressId);
+            };
+        }
+
         function registerIds(eventIds, startFn, stopFn) {
             _.each(eventIds, function (eventId) {
                 registerId(eventId, startFn, stopFn);
@@ -62,15 +69,18 @@
             if (eventId) {
                 //console.log("start: " + eventId);
                 var event = getEvent(eventId);
-                event.numStarters++;
 
-                // If this is the first starter, call all the 'start' actions
+                if (event) {
+                    event.numStarters++;
 
-                if (event.numStarters === 1) {
-                    _.each(event.registrations, function (fns, regId) {
-                        //console.log("start: " + eventId + "," + regId);
-                        fns.start();
-                    });
+                    // If this is the first starter, call all the 'start' actions
+
+                    if (event.numStarters === 1) {
+                        _.each(event.registrations, function (fns, regId) {
+                            //console.log("start: " + eventId + "," + regId);
+                            fns.start();
+                        });
+                    }
                 }
             }
         }
@@ -78,26 +88,22 @@
         function stop(eventId) {
             if (eventId) {
                 //console.log("stop: " + eventId);
-                var event = getEvent(eventId);
 
-                if (event) {
+                decrStartersAndCall(eventId, function (fns, regId) {
+                    //console.log("calling stop: " + eventId + "," + regId);
+                    fns.stop();
+                });
+            }
+        }
 
-                    // If other starters still exist, then decr the reference count,
-                    // otherwise call all the 'stop' actions
+        function error(eventId) {
+            if (eventId) {
+                //console.log("error: " + eventId);
 
-                    if (event.numStarters > 0) {
-                        event.numStarters--;
-                    }
-
-                    if (event.numStarters === 0) {
-                        _.each(event.registrations, function (fns, regId) {
-                            //console.log("stop: " + eventId + "," + regId);
-                            fns.stop();
-                        });
-
-                        cleanupIfNecessary(eventId);
-                    }
-                }
+                decrStartersAndCall(eventId, function (fns, regId) {
+                    //console.log("calling error: " + eventId + "," + regId);
+                    fns.error();
+                });
             }
         }
 
@@ -105,7 +111,7 @@
         // Registration functions
         /////////////////////////////////////////////////////////////////////////
 
-        function registerId(eventId, startFn, stopFn) {
+        function registerId(eventId, startFn, stopFn, errorFn) {
             var regId = getNextRegId();
 
             var event = getEvent(eventId);
@@ -116,7 +122,8 @@
 
             event.registrations[regId] = {
                 start: startFn,
-                stop: stopFn
+                stop: stopFn,
+                error: errorFn
             };
 
             // If the event is started already, call start
@@ -143,6 +150,27 @@
         /////////////////////////////////////////////////////////////////////////
         // Internal functions
         /////////////////////////////////////////////////////////////////////////
+
+        function decrStartersAndCall(eventId, regFn) {
+
+            var event = getEvent(eventId);
+
+            if (event) {
+
+                // If other starters still exist, then decr the reference count,
+                // otherwise execute the passed fn for each registration
+
+                if (event.numStarters > 0) {
+                    event.numStarters--;
+                }
+
+                if (event.numStarters === 0) {
+                    _.each(event.registrations, regFn);
+
+                    cleanupIfNecessary(eventId);
+                }
+            }
+        }
 
         function getNextRegId() {
             return (service.regId++).toString();

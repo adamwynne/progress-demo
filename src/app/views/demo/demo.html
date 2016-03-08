@@ -3,7 +3,7 @@
      layout-padding>
 
     <div class="md-title">
-        Success
+        Buttons
     </div>
 
     <div class="md-whiteframe-1dp"
@@ -11,7 +11,7 @@
          layout-align="center center"
          layout-wrap>
 
-        <md-button class="md-raised md-primary"
+        <md-button class="md-raised"
                    ng-click="vm.demoSpinner('spinner-button')">
             <i class="fa fa-plus"
                inv-progress="spinner-button"
@@ -22,8 +22,9 @@
                                   progress-show
                                   md-diameter="16">
             </md-progress-circular>
-            Spinner
+            Add spinner
         </md-button>
+
         <md-button class="md-raised"
                    ng-click="vm.demoAddClass('add-class')"
                    inv-progress="add-class"
@@ -31,9 +32,80 @@
             <i class="fa fa-plus"></i>
             Add class
         </md-button>
+
+        <md-button class="md-raised"
+                   ng-click="vm.demoErrorClass('error-class')"
+                   inv-progress="error-class"
+                   progress-add-classes="md-primary"
+                   progress-error-add-classes="md-warn">
+            <i class="fa fa-plus"></i>
+            Error add class
+        </md-button>
     </div>
 
-    <pre>
-        {{ vm.companiesHouse | json }}
-    </pre>
+    <div class="md-title">
+        Same event Id
+    </div>
+
+    <div class="md-whiteframe-1dp"
+         layout="row"
+         layout-align="center center"
+         layout-wrap>
+
+        <md-button class="md-raised"
+                   ng-click="vm.demoAddClass('same-group')"
+                   inv-progress="same-group"
+                   progress-add-classes="md-primary">
+            <i class="fa fa-plus"></i>
+            Button 0
+        </md-button>
+
+        <md-button class="md-raised"
+                   ng-click="vm.demoAddClass('same-group')"
+                   inv-progress="same-group"
+                   progress-add-classes="md-primary">
+            <i class="fa fa-plus"></i>
+            Button 1
+        </md-button>
+
+        <md-button class="md-raised"
+                   ng-click="vm.demoAddClass('same-group')"
+                   inv-progress="same-group"
+                   progress-add-classes="md-primary">
+            <i class="fa fa-plus"></i>
+            Button 2
+        </md-button>
+    </div>
+
+    <div class="md-title">
+        Hide and show
+    </div>
+
+    <div class="md-whiteframe-1dp"
+         layout="row"
+         layout-align="center center"
+         layout-wrap>
+
+        <md-button class="md-raised"
+                   ng-click="vm.demoAddClass('hide-show')">
+            <i class="fa fa-plus"></i>
+            Success
+        </md-button>
+
+        <md-button class="md-raised"
+                   ng-click="vm.demoErrorClass('hide-show')">
+            <i class="fa fa-plus"></i>
+            Error
+        </md-button>
+
+        <div inv-progress="hide-show"
+             progress-show>
+            Loading
+        </div>
+
+        <div inv-progress="hide-show"
+             progress-error-show>
+            Error
+        </div>
+    </div>
 </div>

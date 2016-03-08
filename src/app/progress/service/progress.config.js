@@ -49,6 +49,7 @@
             function responseError( response ) {
                 if (response.config.progressId) {
                     progressService.stop(response.config.progressId);
+                    progressService.error(response.config.progressId);
                 }
                 // Pass-through the rejection.
                 return $q.reject( response );

@@ -6,6 +6,7 @@ describe('progressService', function() {
             started: false,
             startCalled: 0,
             stopCalled: 0,
+            errorCalled: 0,
             eventId: 'myEvent'
         };
         newObj.start = function() {
@@ -15,6 +16,10 @@ describe('progressService', function() {
         newObj.stop = function() {
             newObj.started = false;
             newObj.stopCalled++;
+        };
+        newObj.error = function() {
+            newObj.started = false;
+            newObj.errorCalled++;
         };
         return newObj;
     };
@@ -55,7 +60,7 @@ describe('progressService', function() {
             expect(progressService.registry[testState.eventId].registrations[regId].stop).to.equal(_.noop);
         }));
 
-    it('should correctly unregister an eventId',
+    it('should correctly unregister an event',
         inject(function(progressService) {
             var testState = getTestState();
 
@@ -133,6 +138,27 @@ describe('progressService', function() {
             expect(testState.started).to.be.false;
         }));
 
+    it('should stop the event after error is called',
+        inject(function(progressService) {
+            var testState = getTestState();
+
+            expect(testState.started).to.be.false;
+
+            // Register our event
+
+            progressService.registerId(testState.eventId, testState.start, testState.stop, testState.error);
+
+            // Start our event
+
+            progressService.start(testState.eventId);
+            expect(testState.started).to.be.true;
+
+            // Error the event
+
+            progressService.error(testState.eventId);
+            expect(testState.started).to.be.false;
+        }));
+
     it('should not stop the event when the only starter deregisters',
         inject(function(progressService) {
             var testState = getTestState();
@@ -200,7 +226,6 @@ describe('progressService', function() {
             expect(testState1.startCalled).to.equal(1);
 
             // Stopping the event should stop them both
-            // TODO: take away the numStarters I think
 
             progressService.stop(testState0.eventId);
             //expect(testState0.started).to.be.false;
@@ -233,5 +258,33 @@ describe('progressService', function() {
             expect(testState0.started).to.be.false;
             expect(testState1.started).to.be.false;
 
+        }));
+
+    it('register => unregister => start should do nothing and have no registrations left',
+        inject(function(progressService) {
+
+            var testState = getTestState();
+
+            // Register
+
+            var regId = progressService.registerId(testState.eventId, testState.start, testState.stop);
+
+            // Unregister
+
+            progressService.unregisterId(testState.eventId, regId);
+
+            // Starting the event should do nothing
+
+            progressService.start(testState.eventId);
+            expect(testState.started).to.be.false;
+
+            // Stopping the event should stop them both
+
+            progressService.stop(testState.eventId);
+            expect(testState.started).to.be.false;
+
+            // No registrations left
+
+            expect(progressService.registry).to.be.empty;
         }));
 });
