@@ -101,7 +101,11 @@
                 //console.log("error: " + eventId);
 
                 decrStartersAndCall(eventId, function (fns, regId) {
-                    //console.log("calling error: " + eventId + "," + regId);
+                    //console.log("calling stop and error: " + eventId + "," + regId);
+
+                    // Always stop first then call error
+
+                    fns.stop();
                     fns.error();
                 });
             }

@@ -24,10 +24,11 @@
             // defn)
             //
             // This just makes the directive more usable generally as it's an
-            // attribute
+            // attribute. Otherwise, if we had an isolate scope, and some other
+            // element/attr wanted one, angular would crap out
             ////////////////////////////////////////////////////////////////////////
 
-            var hideClass = "ng-hide";
+            var hideClass = "progress-hide";
 
             var state = {
                 progressFns: getProgressFns(element),
@@ -64,52 +65,69 @@
                     errors: [setStopped]
                 };
 
-                if (_.has(attrs, "progressHide")) {
+                var hideElem = _.bind(jqElem.addClass, jqElem, hideClass);
+                var showElem = _.bind(jqElem.removeClass, jqElem, hideClass);
+
+                if (_.has(attrs, "invProgressHide")) {
 
                     // Add the hide class when the event is started and
                     // remove when its stopped
 
-                    fns.starts.push(_.bind(jqElem.addClass, jqElem, hideClass));
-                    fns.stops.push(_.bind(jqElem.removeClass, jqElem, hideClass));
+                    fns.starts.push(hideElem);
+                    fns.stops.push(showElem);
 
-                } else if (_.has(attrs, "progressShow")) {
+                } else if (_.has(attrs, "invProgressShow")) {
 
                     // Add the hide class immediately, remove when the event is started and
                     // then add it again when the event is stopped
 
-                    fns.inits.push(_.bind(jqElem.addClass, jqElem, hideClass));
-                    fns.starts.push(_.bind(jqElem.removeClass, jqElem, hideClass));
-                    fns.stops.push(_.bind(jqElem.addClass, jqElem, hideClass));
-
+                    fns.inits.push(hideElem);
+                    fns.starts.push(showElem);
+                    fns.stops.push(hideElem);
                 }
 
-                if (_.has(attrs, "progressErrorHide")) {
+                if (_.has(attrs, "invProgressErrorHide")) {
 
                     // Add the hide class when the event is errored and
                     // remove when its stopped
 
-                    fns.starts.push(_.bind(jqElem.removeClass, jqElem, hideClass));
-                    fns.errors.push(_.bind(jqElem.addClass, jqElem, hideClass));
+                    fns.starts.push(showElem);
+                    fns.errors.push(hideElem);
 
-                } else if (_.has(attrs, "progressErrorShow")) {
+                } else if (_.has(attrs, "invProgressErrorShow")) {
 
                     // Add the hide class immediately, remove when the event is started and
                     // then add it again when the event is errored
 
-                    fns.inits.push(_.bind(jqElem.addClass, jqElem, hideClass));
-                    fns.starts.push(_.bind(jqElem.removeClass, jqElem, hideClass));
-                    fns.errors.push(_.bind(jqElem.addClass, jqElem, hideClass));
-
+                    fns.inits.push(hideElem);
+                    fns.starts.push(hideElem);
+                    fns.errors.push(showElem);
                 }
 
-                if (_.has(attrs, "progressAddClasses")) {
-                    fns.starts.push(_.bind(jqElem.addClass, jqElem, attrs.progressAddClasses));
-                    fns.stops.push(_.bind(jqElem.removeClass, jqElem, attrs.progressAddClasses));
+                if (_.has(attrs, "invProgressLockDimensions")) {
+
+                    var setDimensions = function(elem, width, height) {
+                        elem.css("height", height);
+                        elem.css("width", width);
+                    };
+
+                    fns.starts.push(_.bind(setDimensions, this, jqElem, jqElem.outerWidth() + 'px', jqElem.outerHeight() + 'px'));
+                    fns.stops.push(_.bind(setDimensions, this, jqElem, '', ''));
                 }
 
-                if (_.has(attrs, "progressErrorAddClasses")) {
-                    fns.starts.push(_.bind(jqElem.removeClass, jqElem, attrs.progressErrorAddClasses));
-                    fns.errors.push(_.bind(jqElem.addClass, jqElem, attrs.progressErrorAddClasses));
+                if (_.has(attrs, "invProgressDisable")) {
+                    fns.starts.push(_.bind(jqElem.prop, jqElem, 'disabled', true));
+                    fns.stops.push(_.bind(jqElem.prop, jqElem, 'disabled', false));
+                }
+
+                if (_.has(attrs, "invProgressAddClasses")) {
+                    fns.starts.push(_.bind(jqElem.addClass, jqElem, attrs.invProgressAddClasses));
+                    fns.stops.push(_.bind(jqElem.removeClass, jqElem, attrs.invProgressAddClasses));
+                }
+
+                if (_.has(attrs, "invProgressErrorAddClasses")) {
+                    fns.starts.push(_.bind(jqElem.removeClass, jqElem, attrs.invProgressErrorAddClasses));
+                    fns.errors.push(_.bind(jqElem.addClass, jqElem, attrs.invProgressErrorAddClasses));
                 }
 
                 return {

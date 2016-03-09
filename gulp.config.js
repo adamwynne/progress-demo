@@ -6,6 +6,7 @@ module.exports = function() {
     var root = './';
     var specRunnerFile = 'specs.html';
     var temp = './.tmp/';
+    var cssFile = 'styles.css';
     var wiredep = require('wiredep');
     var bowerFiles = wiredep({devDependencies: true})['js'];
     var bower = {
@@ -26,7 +27,8 @@ module.exports = function() {
         ],
         build: './build/',
         client: client,
-        css: temp + 'styles.css',
+        css: temp + cssFile,
+        cssFile: cssFile,
         fonts: bower.directory + 'font-awesome/fonts/**/*.*',
         html: client + '**/*.html',
         htmltemplates: clientApp + '**/*.html',

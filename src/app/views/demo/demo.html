@@ -1,111 +1,211 @@
-<div class="demo"
-     layout="column"
-     layout-padding>
+<div class="demo">
 
-    <div class="md-title">
-        Buttons
-    </div>
+    <div class="demo-frame md-whiteframe-1dp">
 
-    <div class="md-whiteframe-1dp"
-         layout="row"
-         layout-align="center center"
-         layout-wrap>
-
-        <md-button class="md-raised"
-                   ng-click="vm.demoSpinner('spinner-button')">
-            <i class="fa fa-plus"
-               inv-progress="spinner-button"
-               progress-hide>
-            </i>
-            <md-progress-circular md-mode="indeterminate"
-                                  inv-progress="spinner-button"
-                                  progress-show
-                                  md-diameter="16">
-            </md-progress-circular>
-            Add spinner
-        </md-button>
-
-        <md-button class="md-raised"
-                   ng-click="vm.demoAddClass('add-class')"
-                   inv-progress="add-class"
-                   progress-add-classes="md-primary">
-            <i class="fa fa-plus"></i>
-            Add class
-        </md-button>
-
-        <md-button class="md-raised"
-                   ng-click="vm.demoErrorClass('error-class')"
-                   inv-progress="error-class"
-                   progress-add-classes="md-primary"
-                   progress-error-add-classes="md-warn">
-            <i class="fa fa-plus"></i>
-            Error add class
-        </md-button>
-    </div>
-
-    <div class="md-title">
-        Same event Id
-    </div>
-
-    <div class="md-whiteframe-1dp"
-         layout="row"
-         layout-align="center center"
-         layout-wrap>
-
-        <md-button class="md-raised"
-                   ng-click="vm.demoAddClass('same-group')"
-                   inv-progress="same-group"
-                   progress-add-classes="md-primary">
-            <i class="fa fa-plus"></i>
-            Button 0
-        </md-button>
-
-        <md-button class="md-raised"
-                   ng-click="vm.demoAddClass('same-group')"
-                   inv-progress="same-group"
-                   progress-add-classes="md-primary">
-            <i class="fa fa-plus"></i>
-            Button 1
-        </md-button>
-
-        <md-button class="md-raised"
-                   ng-click="vm.demoAddClass('same-group')"
-                   inv-progress="same-group"
-                   progress-add-classes="md-primary">
-            <i class="fa fa-plus"></i>
-            Button 2
-        </md-button>
-    </div>
-
-    <div class="md-title">
-        Hide and show
-    </div>
-
-    <div class="md-whiteframe-1dp"
-         layout="row"
-         layout-align="center center"
-         layout-wrap>
-
-        <md-button class="md-raised"
-                   ng-click="vm.demoAddClass('hide-show')">
-            <i class="fa fa-plus"></i>
-            Success
-        </md-button>
-
-        <md-button class="md-raised"
-                   ng-click="vm.demoErrorClass('hide-show')">
-            <i class="fa fa-plus"></i>
-            Error
-        </md-button>
-
-        <div inv-progress="hide-show"
-             progress-show>
-            Loading
+        <div class="md-title">
+            Buttons
         </div>
 
-        <div inv-progress="hide-show"
-             progress-error-show>
-            Error
+        <div layout="row"
+             layout-align="center center"
+             layout-wrap>
+
+            <md-button class="md-raised"
+                       ng-click="vm.demoTimeoutSuccess('spinner-icon')">
+                <div class="icon"
+                     inv-progress="spinner-icon"
+                     inv-progress-lock-dimensions>
+                    <i class="fa fa-plus"
+                       inv-progress="spinner-icon"
+                       inv-progress-hide>
+                    </i>
+                    <md-progress-circular md-mode="indeterminate"
+                                          inv-progress="spinner-icon"
+                                          inv-progress-show
+                                          md-diameter="30">
+                    </md-progress-circular>
+                </div>
+                Icon spinner
+            </md-button>
+
+            <md-button class="md-raised"
+                       ng-click="vm.demoTimeoutSuccess('spinner-button')"
+                       inv-progress="spinner-button"
+                       inv-progress-lock-dimensions>
+                <md-progress-circular class="button-centre"
+                                      md-diameter="40"
+                                      md-mode="indeterminate"
+                                      inv-progress="spinner-button"
+                                      inv-progress-show>
+                </md-progress-circular>
+                <div inv-progress="spinner-button"
+                     inv-progress-hide>
+                    Button spinner
+                </div>
+            </md-button>
+
+            <md-button class="md-raised"
+                       ng-click="vm.demoTimeoutSuccess('add-class')"
+                       inv-progress="add-class"
+                       inv-progress-add-classes="md-primary">
+                Add class
+            </md-button>
+
+            <md-button class="md-raised"
+                       ng-click="vm.demoTimeoutError('error-class')"
+                       inv-progress="error-class"
+                       inv-progress-add-classes="md-primary"
+                       inv-progress-error-add-classes="md-warn">
+                Error add class
+            </md-button>
+
+            <md-button class="md-raised"
+                       ng-click="vm.demoTimeoutAlternateError('alt-error', 1000)"
+                       inv-progress="alt-error"
+                       inv-progress-add-classes="md-primary"
+                       inv-progress-error-add-classes="md-warn">
+                Alternate error/success
+            </md-button>
+
+            <md-button class="md-raised"
+                       ng-click="vm.demoTimeoutSuccess('same-group')"
+                       inv-progress="same-group"
+                       inv-progress-add-classes="md-primary">
+                Same id
+            </md-button>
+
+            <md-button class="md-raised"
+                       ng-click="vm.demoTimeoutSuccess('same-group')"
+                       inv-progress="same-group"
+                       inv-progress-add-classes="md-primary">
+                Same id
+            </md-button>
+
+            <md-button class="md-raised"
+                       ng-click="vm.demoTimeoutSuccess('disabled')"
+                       inv-progress="disabled"
+                       inv-progress-disable>
+                Make disabled
+            </md-button>
+        </div>
+
+    </div>
+
+    <div class="demo-frame md-whiteframe-1dp">
+
+        <div class="md-title">
+            Hide and show
+        </div>
+
+        <div layout="row"
+             layout-align="center center"
+             layout-wrap>
+
+            <md-button class="md-raised"
+                       ng-click="vm.demoTimeoutSuccess('hide-show')">
+                Success
+            </md-button>
+
+            <md-button class="md-raised"
+                       ng-click="vm.demoTimeoutError('hide-show')">
+                Error
+            </md-button>
+
+            <div inv-progress="hide-show"
+                 inv-progress-show>
+                Loading
+            </div>
+
+            <div inv-progress="hide-show"
+                 inv-progress-error-show>
+                Error
+            </div>
+        </div>
+    </div>
+
+    <div class="demo-frame md-whiteframe-1dp">
+
+        <div class="md-title">
+            Tooltips
+        </div>
+
+        <div layout="row"
+             layout-align="center center"
+             layout-wrap>
+
+            <md-button class="md-raised"
+                       inv-progress="tooltips"
+                       inv-progress-add-classes="md-primary"
+                       inv-progress-error-add-classes="md-warn"
+                       ng-click="vm.demoTimeoutAlternateError('tooltips', 1000)">
+                <md-tooltip md-direction="top"
+                            inv-progress="tooltips"
+                            inv-progress-error-hide>
+                    All good
+                </md-tooltip>
+                <md-tooltip md-direction="top"
+                            inv-progress="tooltips"
+                            inv-progress-error-show>
+                    error
+                </md-tooltip>
+                Hover before/after
+            </md-button>
+
+        </div>
+    </div>
+
+    <div class="demo-frame md-whiteframe-1dp">
+
+        <div class="md-title">
+            Actually wired up to $http
+        </div>
+
+        <div layout="row"
+             layout-align="center center"
+             layout-wrap>
+
+            <md-button class="md-raised"
+                       inv-progress="http-success"
+                       ng-click="vm.demoHttpSuccess('http-success', 1000)">
+                <div class="icon"
+                     inv-progress="http-success"
+                     inv-progress-lock-dimensions>
+                    <i class="fa fa-cloud-download"
+                       inv-progress="http-success"
+                       inv-progress-hide>
+                    </i>
+                    <md-progress-circular md-mode="indeterminate"
+                                          inv-progress="http-success"
+                                          inv-progress-show
+                                          md-diameter="30">
+                    </md-progress-circular>
+                </div>
+                Get company info
+            </md-button>
+
+            <md-button class="md-raised"
+                       ng-click="vm.demoHttpError('http-error')"
+                       inv-progress="http-error"
+                       inv-progress-error-add-classes="md-warn"
+                       inv-progress-lock-dimensions>
+
+                <md-progress-circular class="button-centre"
+                                      md-diameter="40"
+                                      md-mode="indeterminate"
+                                      inv-progress="http-error"
+                                      inv-progress-show>
+                </md-progress-circular>
+
+                <div inv-progress="http-error"
+                     inv-progress-hide>
+                    Get company info error
+                </div>
+            </md-button>
+
+        </div>
+
+        <div ng-show="vm.companiesHouse">
+            {{ vm.companiesHouse | json }}
         </div>
     </div>
 </div>

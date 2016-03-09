@@ -30,7 +30,6 @@
                 if (config.progressId) {
                     progressService.start(config.progressId);
                 }
-                // Pass-through original config object.
                 return config;
             }
 
@@ -42,16 +41,19 @@
                 if (response.config.progressId) {
                     progressService.stop(response.config.progressId);
                 }
+
                 // Pass-through the resolution.
+
                 return response;
             }
 
             function responseError( response ) {
                 if (response.config.progressId) {
-                    progressService.stop(response.config.progressId);
                     progressService.error(response.config.progressId);
                 }
+
                 // Pass-through the rejection.
+
                 return $q.reject( response );
             }
         }
