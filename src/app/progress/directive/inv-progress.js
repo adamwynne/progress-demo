@@ -28,7 +28,7 @@
             // element/attr wanted one, angular would crap out
             ////////////////////////////////////////////////////////////////////////
 
-            var hideClass = "progress-hide";
+            var hideClass = 'progress-hide';
 
             var state = {
                 progressFns: getProgressFns(element),
@@ -68,7 +68,7 @@
                 var hideElem = _.bind(jqElem.addClass, jqElem, hideClass);
                 var showElem = _.bind(jqElem.removeClass, jqElem, hideClass);
 
-                if (_.has(attrs, "invProgressHide")) {
+                if (_.has(attrs, 'invProgressHide')) {
 
                     // Add the hide class when the event is started and
                     // remove when its stopped
@@ -76,7 +76,7 @@
                     fns.starts.push(hideElem);
                     fns.stops.push(showElem);
 
-                } else if (_.has(attrs, "invProgressShow")) {
+                } else if (_.has(attrs, 'invProgressShow')) {
 
                     // Add the hide class immediately, remove when the event is started and
                     // then add it again when the event is stopped
@@ -86,7 +86,7 @@
                     fns.stops.push(hideElem);
                 }
 
-                if (_.has(attrs, "invProgressErrorHide")) {
+                if (_.has(attrs, 'invProgressErrorHide')) {
 
                     // Add the hide class when the event is errored and
                     // remove when its stopped
@@ -94,7 +94,7 @@
                     fns.starts.push(showElem);
                     fns.errors.push(hideElem);
 
-                } else if (_.has(attrs, "invProgressErrorShow")) {
+                } else if (_.has(attrs, 'invProgressErrorShow')) {
 
                     // Add the hide class immediately, remove when the event is started and
                     // then add it again when the event is errored
@@ -104,28 +104,30 @@
                     fns.errors.push(showElem);
                 }
 
-                if (_.has(attrs, "invProgressLockDimensions")) {
+                if (_.has(attrs, 'invProgressLockDimensions')) {
 
                     var setDimensions = function(elem, width, height) {
-                        elem.css("height", height);
-                        elem.css("width", width);
+                        elem.css('height', height);
+                        elem.css('width', width);
                     };
 
-                    fns.starts.push(_.bind(setDimensions, this, jqElem, jqElem.outerWidth() + 'px', jqElem.outerHeight() + 'px'));
+                    fns.starts.push(_.bind(setDimensions, this, jqElem,
+						jqElem.outerWidth() + 'px',
+						jqElem.outerHeight() + 'px'));
                     fns.stops.push(_.bind(setDimensions, this, jqElem, '', ''));
                 }
 
-                if (_.has(attrs, "invProgressDisable")) {
+                if (_.has(attrs, 'invProgressDisable')) {
                     fns.starts.push(_.bind(jqElem.prop, jqElem, 'disabled', true));
                     fns.stops.push(_.bind(jqElem.prop, jqElem, 'disabled', false));
                 }
 
-                if (_.has(attrs, "invProgressAddClasses")) {
+                if (_.has(attrs, 'invProgressAddClasses')) {
                     fns.starts.push(_.bind(jqElem.addClass, jqElem, attrs.invProgressAddClasses));
                     fns.stops.push(_.bind(jqElem.removeClass, jqElem, attrs.invProgressAddClasses));
                 }
 
-                if (_.has(attrs, "invProgressErrorAddClasses")) {
+                if (_.has(attrs, 'invProgressErrorAddClasses')) {
                     fns.starts.push(_.bind(jqElem.removeClass, jqElem, attrs.invProgressErrorAddClasses));
                     fns.errors.push(_.bind(jqElem.addClass, jqElem, attrs.invProgressErrorAddClasses));
                 }
@@ -135,7 +137,7 @@
                     start: _.flow.apply(fns, fns.starts),
                     stop: _.flow.apply(fns, fns.stops),
                     error: _.flow.apply(fns, fns.errors)
-                }
+                };
             }
 
             function setStarted() {
@@ -159,7 +161,8 @@
             function unregister() {
                 if (state.progressId) {
 
-                    // Stop our stuff if started (so if we unreg from a started event, we stop but other still carry on)
+                    // Stop our stuff if started (so if we unreg from a started event, we 
+					// stop but other still carry on)
 
                     if (state.started) {
                         state.progressFns.stop();
